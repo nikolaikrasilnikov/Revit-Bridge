@@ -8,6 +8,8 @@ description: "Operate Revit Bridge MCP: sessions, documents, protected C# querie
 
 Use the already connected Revit Bridge MCP server. Consult the current schemas; never enable a second transport just to run a task.
 
+Start with the default Code Mode interface. `revit_tools` searches the operation catalog and returns JSON schemas; `revit_code_mode` runs a JavaScript async function body using `await revit.call('revit_sessions', {})`. All operation names below are called through this facade unless the client explicitly enables the full direct toolset. JavaScript orchestrates; C# belongs inside the `code` argument of query/edit operations. Await every call and return a concise JSON result. Inspect native job states separately from script completion. A JS deadline does not cancel native work or replay it: retain the receipt's request/job IDs and reconcile unknown outcomes. Keep stable request IDs for writes if the response could be lost.
+
 1. Discover `revit_sessions`, then `revit_documents`. Poll the returned job and retain exact session/document UUIDs. Refresh after a restart, reopen or document switch.
 2. Inspect the document, selected categories, levels, phases, types and warnings. Resolve uncertain overloads with `revit_api_lookup` against that session.
 3. Read using `revit_query`. Supply a C# body using `document`, `uiapp`, `parameters`; return JSON-compatible values. This is not a Python endpoint.

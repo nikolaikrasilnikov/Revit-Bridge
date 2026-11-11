@@ -25,4 +25,6 @@ The bridge targets Revit's runtime. Do not retarget it to a newer .NET just beca
 
 Registration uses `RevitBridge.addin`, separate from the development bridge. The installer backs up an existing owned manifest and refuses an unrelated one. Use one intended writer per document even if multiple integrations are installed.
 
+Code Mode is built into this Node server and needs no extra dependency. The default MCP tool list has `revit_tools` and `revit_code_mode`; all 28 operations are available inside it. See [Code Mode](CODE_MODE.md) for usage and `REVIT_BRIDGE_TOOLSET=full` compatibility.
+
 `-Remove` unregisters the owned manifest only. Dependencies, skills and model data remain. Existing skills are not overwritten during installation. The pyRevit agent host is never enabled by this installer.

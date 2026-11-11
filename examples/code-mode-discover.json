@@ -1,0 +1,4 @@
+{
+  "code": "const sessions = await revit.call('revit_sessions', {}); return sessions.map(s => ({sessionId: s.sessionId, year: s.year}));",
+  "timeoutMs": 10000
+}

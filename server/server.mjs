@@ -8,6 +8,7 @@ import { warningReport } from './warnings.mjs';
 import {references} from './safety.mjs';
 import { lifecycleSubmit } from './lifecycle.mjs';
 import { warningAuthorization } from './warning-policy.mjs';
+import { runCodeMode } from './code-mode.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const config = await loadConfig(root);
@@ -18,7 +19,7 @@ const { StdioServerTransport } = require('@modelcontextprotocol/sdk/server/stdio
 const { z } = require('zod');
 const manager = new Manager(config, root);
 const batches = new BatchManager(manager);
-const server = new McpServer({ name: 'revit-bridge', version: '0.1.0' });
+const server = new McpServer({ name: 'revit-bridge', version: '0.2.0' });
 const sessionId = z.string().uuid().describe('Exact session UUID returned by revit_sessions; never infer it from year');
 const requestId = z.string().uuid().optional().describe('Stable UUID for deduplicating a retried submission. Reuse only for the identical request.');
 const documentId = z.string().uuid().describe('Exact document ID from list_documents in this session. Never substitute the active document.');
@@ -31,11 +32,21 @@ async function guardedSubmit(a,mode) {
   return manager.submit(a.sessionId,'execute_code',{documentId:a.documentId,code:a.code,parameters:a.parameters,
     transactionMode:mode??a.transactionMode,workflowId:a.workflowId,preserveElements:references(a.preserveElements),...authorization},a.requestId);
 }
-function tool(name, description, schema, run) {
+const operations = new Map();
+const toolset = process.env.REVIT_BRIDGE_TOOLSET ?? 'code';
+if (!['code', 'full'].includes(toolset)) throw new Error('REVIT_BRIDGE_TOOLSET must be code or full');
+function expose(name, description, schema, run) {
   server.tool(name, description, schema, async args => {
-    try { return { content: [{ type: 'text', text: JSON.stringify(await run(args)) }] }; }
+    try {
+      const result = await run(args);
+      return { ...(name === 'revit_code_mode' && result.status !== 'completed' ? { isError: true } : {}), content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
     catch (error) { return { isError: true, content: [{ type: 'text', text: error.message }] }; }
   });
+}
+function tool(name, description, schema, run) {
+  operations.set(name, { name, description, schema: z.object(schema).strict(), run });
+  if (toolset === 'full') expose(name, description, schema, run);
 }
 tool('revit_installations', 'List installed supported Revit versions and executable paths.', {}, () => installations(config));
 tool('revit_models', 'Find local RVT files under the configured workspace folder. Does not open files or guess their Revit version.', {
@@ -136,4 +147,15 @@ tool('revit_batch_results','Read per-chunk IDs, transaction status, timings and 
 tool('revit_batch_checkpoint','Read a confirmed finished batch preservation checkpoint (ID+UniqueId) from disk. Page all elements and pass them as preserveElements to a later preview or batch. Unknown or failed preservation is refused. No Revit API calls.',{
   sessionId,batchId:z.string().uuid(),offset:z.number().int().min(0).default(0),limit:z.number().int().min(1).max(1000).default(1000)
 },a=>batches.checkpoint(a.sessionId,a.batchId,a.offset,a.limit));
+expose('revit_tools', 'Discover the 28 Revit operations available inside Code Mode. Search descriptions/names and retrieve exact JSON input schemas before calling revit.call(name,args). Operations are the same guarded handlers as the full MCP toolset.', {
+  query: z.string().max(200).default(''), offset: z.number().int().min(0).default(0), limit: z.number().int().min(1).max(28).default(5)
+}, ({ query, offset, limit }) => {
+  const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+  const matches = [...operations.values()].filter(t => terms.every(q => `${t.name} ${t.description}`.toLowerCase().includes(q)));
+  return { total: matches.length, nextOffset: offset + limit < matches.length ? offset + limit : null,
+    operations: matches.slice(offset, offset + limit).map(t => ({ name: t.name, description: t.description, inputSchema: z.toJSONSchema(t.schema) })) };
+});
+expose('revit_code_mode', 'Primary Revit interface. Execute a JavaScript async function BODY with await revit.call("revit_sessions",{}), loops and JSON processing; return a concise JSON value. Discover operation names/schemas with revit_tools. C# belongs inside revit_query/revit_execute_code arguments, not at the top level. Max 32 calls, 30s, 256 KiB return. Await every call. Uses existing guards and durable job IDs; script completion does not prove a Revit job completed. Timeout stops this JS worker, not native work; reconcile receipt IDs and never replay writes blindly. No modules, filesystem or network API is provided to JS. Trusted agent-authored code only; Node vm is not a security sandbox.', {
+  code: z.string().min(1).max(64000), timeoutMs: z.number().int().min(100).max(30000).default(10000)
+}, a => runCodeMode(operations, a));
 await server.connect(new StdioServerTransport());

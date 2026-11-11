@@ -2,12 +2,13 @@
 
 [English](README.md) · [Русский](README.ru.md)
 
-Connect AI coding agents to Autodesk Revit through a local MCP server and guarded .NET add-in. Includes **28 MCP tools**, **seven generic skills** and **pyRevit Assistant**.
+Connect AI coding agents to Autodesk Revit through **Code Mode**, a local MCP server and guarded .NET add-in. Two primary MCP tools orchestrate **28 Revit operations**, with **seven generic skills** and **pyRevit Assistant**.
 
 ![Revit Bridge architecture](docs/architecture/revit-bridge-en.svg)
 
 ## Features
 
+- Discover operation schemas with `revit_tools`; combine calls, loops and result filtering in `revit_code_mode`.
 - Discover Revit installations, sessions, documents and local models.
 - Run protected C# queries, API signature lookup, previews and managed edits.
 - Inspect durable jobs, cancel pending work and reserve a multi-step workflow.
@@ -16,7 +17,12 @@ Connect AI coding agents to Autodesk Revit through a local MCP server and guarde
 - Save RVT and export generic IFC through explicit lifecycle tools.
 - Author pyRevit buttons and inspect PDF/DXF/FBX/OBJ reference geometry.
 
-**Code Mode is planned, not included:** its separate source was not found in the available inventory. Existing C# execution through MCP is implemented and is a different capability.
+**Code Mode is the default interface.** JavaScript orchestrates existing operations; guarded C# runs inside Revit. [Contract and examples](docs/CODE_MODE.md). For clients needing direct tools, set `REVIT_BRIDGE_TOOLSET=full` to expose all 28 operations plus the two primary tools.
+
+```javascript
+const sessions = await revit.call('revit_sessions', {});
+return sessions.map(s => ({ sessionId: s.sessionId, year: s.year }));
+```
 
 ## Install
 
@@ -54,6 +60,6 @@ Keep the registered directory in place. A running Revit process retains its old 
 
 ## Documentation
 
-[Install](docs/INSTALL.md) · [Skills](docs/SKILLS.md) · [Execution contract](docs/EXECUTION.md) · [Validation](docs/VALIDATION.md)
+[Install](docs/INSTALL.md) · [Code Mode](docs/CODE_MODE.md) · [Skills](docs/SKILLS.md) · [Execution contract](docs/EXECUTION.md) · [Validation](docs/VALIDATION.md)
 
 The extracted bridge builds for 2025/2026 but has not been loaded into live Revit during packaging. Model rollback does not sandbox arbitrary C# file/network/process effects. No license for the owner's source has been selected; third-party components retain their own terms: [THIRD_PARTY.md](THIRD_PARTY.md).

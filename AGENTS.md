@@ -6,7 +6,8 @@ Build a portable product for AI-assisted Autodesk Revit work.
 - Include only general-purpose Revit tooling and synthetic examples. Keep customer data and personal project history out of the product.
 - Keep user-facing documentation in English and Russian: README.md and README.ru.md.
 - Use neutral, minimal architecture figures from docs/architecture/.
-- Code Mode is planned/unverified until its actual source and execution contract have been inspected. Do not invent a replacement and label it existing.
+- Code Mode is the primary MCP interface: discover operation schemas with revit_tools, then orchestrate them in JavaScript through revit_code_mode. Its implementation lives in server/code-mode*.mjs; it is newly implemented here, not recovered legacy source.
+- Preserve the distinction between JavaScript orchestration and guarded C# running inside Revit. Code Mode does not make a multi-operation workflow atomic or cancel native jobs on timeout.
 - Skills and pyRevit Assistant are instructions; distinguish them from executable extensions and runtime dependencies.
 - Remove user-specific paths and settings from distributable files. Use configurable paths and environment discovery.
 - State native-tested, built-only and unsupported Revit versions separately.

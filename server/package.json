@@ -1,6 +1,6 @@
 {
   "name": "revit-bridge-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "tools": "node probe.mjs --list",
     "doctor": "node doctor.mjs"
   },
-  "description": "Local MCP server and guarded Revit API execution bridge",
+  "description": "Code Mode orchestration and guarded Revit API execution bridge",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2",
     "zod": "^4.6.7"

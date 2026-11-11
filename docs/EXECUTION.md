@@ -1,5 +1,7 @@
 # Execution contract
 
+Code Mode is the primary entry point: use `revit_tools` for schemas and `revit_code_mode` for JavaScript orchestration with `await revit.call(name, args)`. The operations below remain the same validated handlers. See [Code Mode](CODE_MODE.md) for timeouts, receipts and the optional full toolset.
+
 - Select exact live session/document IDs; refresh after restart or reopen.
 - Protected queries reject writes; preview rolls back model edits. Managed writes own the outer transaction.
 - Revit API work is serialized on a valid main-thread callback. External parsing can run separately.

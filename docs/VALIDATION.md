@@ -1,4 +1,4 @@
-# Validation — packaging preview 0.1.0
+# Validation — Code Mode 0.2.0
 
 [Русский](VALIDATION.ru.md)
 
@@ -6,10 +6,11 @@
 | --- | --- |
 | Bridge build for Revit 2025 | PASS; zero warnings/errors |
 | Bridge build for Revit 2026 | PASS; zero warnings/errors |
-| Actual stdio MCP handshake and tools/list | PASS; 28 tools, specialized adapters absent |
+| Actual stdio MCP handshake and tools/list | PASS; two default tools; 28 operations discovered; full mode exposes 30 tools |
+| Code Mode worker and protocol tests | PASS; 9 tests: orchestration, schema checks, receipts, errors, deadlines, limits and compatibility |
 | Configuration/identity/warning focused tests | PASS; 9 tests |
-| Full Node suite in this executor | 21 passed; 34 failed on denied hardlink/junction filesystem operations |
-| Full Node suite in GitHub Actions, Node 22 | PASS; 55 tests on Ubuntu and 55 on Windows; tool probe passed on both |
+| Full Node suite in this executor | 30 passed; 34 failed on denied hardlink/junction filesystem operations |
+| Previous full Node suite in GitHub Actions, Node 22 | PASS; 55 tests on Ubuntu and 55 on Windows before Code Mode; current run pending |
 | Python helpers | All 12 parse; 7 FBX/OBJ/coordinate-fit tests pass; optional DXF execution not tested because ezdxf is absent |
 | Installer/config/skills/removal | PASS with APPDATA and LOCALAPPDATA redirected to a disposable test directory, using existing binaries/dependencies |
 | Dependency installation from npm | PASS; npm ci on both GitHub Actions runners |
@@ -19,4 +20,4 @@ This executor denies `fs.link`/junction creation; the ownership protocol intenti
 
 No user model was opened, modified or saved. The installer test did not register an add-in in the user's actual Revit profile. The original running integration was left unchanged.
 
-Code Mode source was not found and no working Code Mode is claimed. This is a packaging preview rather than a claim of end-to-end installation/runtime validation on a clean machine.
+Code Mode is now implemented and protocol-tested. No live Revit model has been used to validate it; this is not a claim of end-to-end native runtime validation on a clean machine. The native C# bridge was not changed for 0.2.0.

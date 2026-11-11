@@ -9,6 +9,7 @@ const config = await loadConfig(root);
 const manager = new Manager(config, root);
 const report = {
   product: 'Revit Bridge', node: process.version, platform: process.platform,
+  toolset: process.env.REVIT_BRIDGE_TOOLSET ?? 'code',
   configured: await exists(path.join(root, 'config.json')),
   workspaceExists: await exists(config.workspaceRoot),
   installations: await installations(config),
