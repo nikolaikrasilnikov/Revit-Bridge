@@ -8,7 +8,9 @@ import {workspaceFile,lifecycleSubmit} from '../lifecycle.mjs';
 import {Manager,atomicJson} from '../core.mjs';
 
 async function fixture(t,capabilities={saveModel:true,ifcExport:true}) {
-  const root=await fs.mkdtemp(path.join(os.tmpdir(),'revit-lifecycle-'));
+  // Windows TEMP can use an 8.3 alias; assertions and absolute fixture paths
+  // must use the same canonical root as the containment checks.
+  const root=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'revit-lifecycle-')));
   t.after(()=>fs.rm(root,{recursive:true,force:true}));
   const config={workspaceRoot:path.join(root,'WORK'),stateRoot:path.join(root,'state')};
   await fs.mkdir(config.workspaceRoot);const manager=new Manager(config,root),sessionId=randomUUID(),documentId=randomUUID();
