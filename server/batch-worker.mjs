@@ -1,0 +1,11 @@
+import { loadConfig } from './config.mjs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { Manager,readJson } from './core.mjs';
+import { runBatch } from './batches.mjs';
+const root=path.dirname(fileURLToPath(import.meta.url));
+const dir=path.resolve(process.argv[2]);
+const manager=new Manager(await loadConfig(root),root);
+const result=await runBatch(manager,dir);
+console.log(JSON.stringify({batchId:result.batchId,status:result.status,processedItems:result.processedItems,error:result.error}));
+if(!['completed','cancelled'].includes(result.status))process.exitCode=1;

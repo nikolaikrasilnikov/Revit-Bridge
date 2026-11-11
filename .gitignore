@@ -1,0 +1,41 @@
+# Private machine-specific handoff and configuration
+.local/
+server/config.json
+server/mcp-client.local.json
+server/models/
+server/state/
+dist/
+.agents/
+.claude/
+.env
+.env.*
+!.env.example
+config.local.json
+
+# Dependencies and generated builds
+node_modules/
+bin/
+obj/
+.venv/
+__pycache__/
+*.pyc
+
+# Runtime state, diagnostics and temporary files
+state/
+logs/
+tmp/
+*.log
+*.dmp
+*.bak
+
+# User BIM models and datasets
+*.rvt
+*.rfa
+*.rte
+*.ifc
+*.trm
+*.bcfzip
+
+# Local IDE settings
+.vs/
+.idea/

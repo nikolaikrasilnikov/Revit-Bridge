@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>RevitWorkspaceBridge</AssemblyName>
+    <PlatformTarget>x64</PlatformTarget>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <RevitYear Condition="'$(RevitYear)' == ''">2025</RevitYear>
+    <RevitRoot Condition="'$(RevitRoot)' == ''">C:\Program Files\Autodesk\Revit $(RevitYear)</RevitRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="RevitWorkspaceBridge.cs" />
+    <Compile Include="ScriptCompiler.cs" />
+    <Compile Include="WorkflowLease.cs" />
+    <Compile Include="ScriptScope.cs" />
+    <Compile Include="ExecutionGuard.cs" />
+    <Compile Include="WarningPolicy.cs" />
+    <Compile Include="ApiCatalog.cs" />
+    <Compile Include="Lifecycle.cs" />
+    <Reference Include="RevitAPI"><HintPath>$(RevitRoot)\RevitAPI.dll</HintPath><Private>false</Private><ExternallyResolved>true</ExternallyResolved></Reference>
+    <Reference Include="RevitAPIUI"><HintPath>$(RevitRoot)\RevitAPIUI.dll</HintPath><Private>false</Private><ExternallyResolved>true</ExternallyResolved></Reference>
+    <Reference Include="Microsoft.CodeAnalysis"><HintPath>$(MSBuildSDKsPath)\..\Roslyn\bincore\Microsoft.CodeAnalysis.dll</HintPath></Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp"><HintPath>$(MSBuildSDKsPath)\..\Roslyn\bincore\Microsoft.CodeAnalysis.CSharp.dll</HintPath></Reference>
+  </ItemGroup>
+</Project>

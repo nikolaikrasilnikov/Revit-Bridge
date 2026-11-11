@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revit Bridge — Архитектура</title>
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #ffffff; color: #171717; }
+body { font-family: "Segoe UI", Arial, sans-serif; }
+.diagram-container { width: 100%; overflow-x: auto; }
+svg { width: 100%; min-width: 960px; display: block; }
+svg text { font-family: "Segoe UI", Arial, sans-serif; fill: #171717; }
+svg .secondary { fill: #5b616a; font-weight: 400; }
+svg .title { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; }
+svg .section { font-size: 12px; font-weight: 600; }
+svg .name { font-size: 16px; font-weight: 600; }
+svg .detail { font-size: 12px; }
+svg .small { font-size: 11px; }
+svg .edge { fill: none; stroke: #737373; stroke-width: 1.4; }
+svg .planned { stroke-dasharray: 5 4; }
+@media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+</style>
+</head>
+<body>
+<main class="diagram-container">
+<svg viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="revit-bridge-ru-title revit-bridge-ru-desc">
+<title id="revit-bridge-ru-title">Revit Bridge — Архитектура</title>
+<desc id="revit-bridge-ru-desc">Агент использует Skills и pyRevit Assistant и обращается к MCP напрямую или через планируемый Code Mode; мост выполняет операции через Revit API, pyRevit — необязательная надстройка.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#737373"/></marker></defs>
+<rect x="0" y="0" width="960" height="600" fill="#ffffff"/>
+<text x="32" y="60" font-family="Arial, sans-serif" font-size="28" font-weight="600" fill="#171717" text-anchor="start">Revit Bridge</text>
+<text x="32" y="88" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#5b616a" text-anchor="start">Архитектура</text>
+<rect x="32" y="176" width="400" height="316" rx="8" fill="#fafafa" stroke="#d1d5db" stroke-width="1"/>
+<text x="56" y="208" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#5b616a" text-anchor="start">AI-клиент</text>
+<rect x="456" y="176" width="176" height="316" rx="8" fill="#fafafa" stroke="#d1d5db" stroke-width="1"/>
+<text x="480" y="208" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#5b616a" text-anchor="start">Локальный сервер</text>
+<rect x="656" y="176" width="272" height="316" rx="8" fill="#fafafa" stroke="#d1d5db" stroke-width="1"/>
+<text x="680" y="208" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#5b616a" text-anchor="start">Autodesk Revit</text>
+<path fill="none" stroke="#737373" stroke-width="1.4" d="M 200,320 V 344 Q 200,352 208,352 H 504 Q 512,352 512,344 V 324"/><polygon points="508,328 512,320 516,328" fill="#737373"/>
+<path fill="none" stroke="#737373" stroke-width="1.4" d="M 208,280 L 213,280 M 217,280 L 222,280 M 226,280 L 231,280 M 235,280 L 240,280 M 244,280 L 249,280"/><polygon points="248,276 256,280 248,284" fill="#737373"/>
+<path fill="none" stroke="#737373" stroke-width="1.4" d="M 408,280 L 413,280 M 417,280 L 422,280 M 426,280 L 431,280 M 435,280 L 440,280 M 444,280 L 449,280 M 453,280 L 458,280 M 462,280 L 467,280 M 471,280 L 476,280"/><polygon points="472,276 480,280 472,284" fill="#737373"/>
+<path fill="none" stroke="#737373" stroke-width="1.4" d="M 608,280 H 676"/><polygon points="672,276 680,280 672,284" fill="#737373"/>
+<path fill="none" stroke="#737373" stroke-width="1.4" d="M 132,388 V 324"/><polygon points="128,328 132,320 136,328" fill="#737373"/>
+<path fill="none" stroke="#737373" stroke-width="1.4" d="M 856,320 V 380"/><polygon points="852,376 856,384 860,376" fill="#737373"/>
+<path fill="none" stroke="#737373" stroke-width="1.4" d="M 776,416 L 781,416 M 785,416 L 790,416 M 794,416 L 799,416 M 803,416 L 804,416"/><polygon points="800,412 808,416 800,420" fill="#737373"/>
+<g data-node="AI-агент">
+<rect x="56" y="240" width="152" height="80" rx="6" fill="#ffffff" stroke="#737373" stroke-width="1"/>
+
+<text x="132" y="286" text-anchor="middle" font-family="Arial, sans-serif" fill="#171717" font-size="16" font-weight="600">AI-агент</text>
+
+</g>
+<g data-node="Code Mode">
+<rect x="256" y="240" width="152" height="80" rx="6" fill="#ffffff" stroke="none" stroke-width="1"/>
+<path d="M 262,240 L 267,240 M 271,240 L 276,240 M 280,240 L 285,240 M 289,240 L 294,240 M 298,240 L 303,240 M 307,240 L 312,240 M 316,240 L 321,240 M 325,240 L 330,240 M 334,240 L 339,240 M 343,240 L 348,240 M 352,240 L 357,240 M 361,240 L 366,240 M 370,240 L 375,240 M 379,240 L 384,240 M 388,240 L 393,240 M 397,240 L 402,240 M 408,246 L 408,251 M 408,255 L 408,260 M 408,264 L 408,269 M 408,273 L 408,278 M 408,282 L 408,287 M 408,291 L 408,296 M 408,300 L 408,305 M 408,309 L 408,314 M 402,320 L 397,320 M 393,320 L 388,320 M 384,320 L 379,320 M 375,320 L 370,320 M 366,320 L 361,320 M 357,320 L 352,320 M 348,320 L 343,320 M 339,320 L 334,320 M 330,320 L 325,320 M 321,320 L 316,320 M 312,320 L 307,320 M 303,320 L 298,320 M 294,320 L 289,320 M 285,320 L 280,320 M 276,320 L 271,320 M 267,320 L 262,320 M 256,314 L 256,309 M 256,305 L 256,300 M 256,296 L 256,291 M 256,287 L 256,282 M 256,278 L 256,273 M 256,269 L 256,264 M 256,260 L 256,255 M 256,251 L 256,246 M 402,240 Q 408,240 408,246 M 408,314 Q 408,320 402,320 M 262,320 Q 256,320 256,314 M 256,246 Q 256,240 262,240" fill="none" stroke="#737373" stroke-width="1"/>
+<text x="332" y="277" text-anchor="middle" font-family="Arial, sans-serif" fill="#171717" font-size="16" font-weight="600">Code Mode</text>
+<text x="332.0" y="299.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#5b616a" text-anchor="middle">планируется</text>
+</g>
+<g data-node="MCP-сервер">
+<rect x="480" y="240" width="128" height="80" rx="6" fill="#ffffff" stroke="#737373" stroke-width="1"/>
+
+<text x="544" y="277" text-anchor="middle" font-family="Arial, sans-serif" fill="#171717" font-size="16" font-weight="600">MCP-сервер</text>
+<text x="544.0" y="299.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#5b616a" text-anchor="middle">Node.js</text>
+</g>
+<g data-node="Revit Bridge">
+<rect x="680" y="240" width="224" height="80" rx="6" fill="#ffffff" stroke="#737373" stroke-width="1"/>
+
+<text x="792" y="277" text-anchor="middle" font-family="Arial, sans-serif" fill="#171717" font-size="16" font-weight="600">Revit Bridge</text>
+<text x="792.0" y="299.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#5b616a" text-anchor="middle">C# · Revit API</text>
+</g>
+<g data-node="Skills">
+<rect x="56" y="388" width="352" height="64" rx="6" fill="#ffffff" stroke="#737373" stroke-width="1"/>
+
+<text x="232" y="417" text-anchor="middle" font-family="Arial, sans-serif" fill="#171717" font-size="16" font-weight="600">Skills</text>
+<text x="232.0" y="439.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#5b616a" text-anchor="middle">Revit · pyRevit Assistant</text>
+</g>
+<g data-node="pyRevit">
+<rect x="680" y="384" width="96" height="64" rx="6" fill="#ffffff" stroke="none" stroke-width="1"/>
+<path d="M 686,384 L 691,384 M 695,384 L 700,384 M 704,384 L 709,384 M 713,384 L 718,384 M 722,384 L 727,384 M 731,384 L 736,384 M 740,384 L 745,384 M 749,384 L 754,384 M 758,384 L 763,384 M 767,384 L 770,384 M 776,390 L 776,395 M 776,399 L 776,404 M 776,408 L 776,413 M 776,417 L 776,422 M 776,426 L 776,431 M 776,435 L 776,440 M 770,448 L 765,448 M 761,448 L 756,448 M 752,448 L 747,448 M 743,448 L 738,448 M 734,448 L 729,448 M 725,448 L 720,448 M 716,448 L 711,448 M 707,448 L 702,448 M 698,448 L 693,448 M 689,448 L 686,448 M 680,442 L 680,437 M 680,433 L 680,428 M 680,424 L 680,419 M 680,415 L 680,410 M 680,406 L 680,401 M 680,397 L 680,392 M 770,384 Q 776,384 776,390 M 776,442 Q 776,448 770,448 M 686,448 Q 680,448 680,442 M 680,390 Q 680,384 686,384" fill="none" stroke="#737373" stroke-width="1"/>
+<text x="728" y="413" text-anchor="middle" font-family="Arial, sans-serif" fill="#171717" font-size="14" font-weight="600">pyRevit</text>
+<text x="728.0" y="435.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#5b616a" text-anchor="middle">опционально</text>
+</g>
+<g data-node="Модель">
+<rect x="808" y="384" width="96" height="64" rx="6" fill="#ffffff" stroke="#737373" stroke-width="1"/>
+
+<text x="856" y="413" text-anchor="middle" font-family="Arial, sans-serif" fill="#171717" font-size="16" font-weight="600">Модель</text>
+<text x="856.0" y="435.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#5b616a" text-anchor="middle">RVT</text>
+</g>
+<line x1="32" y1="532" x2="928" y2="532" stroke="#e5e7eb" stroke-width="1"/>
+<line x1="32" y1="560" x2="64" y2="560" stroke="#737373" stroke-width="1.4"/>
+<text x="76" y="564" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#5b616a" text-anchor="start">Основной путь</text>
+<path d="M 320,560 L 325,560 M 329,560 L 334,560 M 338,560 L 343,560 M 347,560 L 352,560" fill="none" stroke="#737373" stroke-width="1.4"/>
+<text x="364" y="564" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#5b616a" text-anchor="start">План / опционально</text>
+</svg>
+</main>
+</body>
+</html>

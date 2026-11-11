@@ -1,0 +1,3 @@
+[mcp_servers.revit-bridge]
+command = "node"
+args = ["C:/Tools/RevitBridge/server/server.mjs"]

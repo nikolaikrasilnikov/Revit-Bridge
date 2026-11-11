@@ -1,0 +1,6 @@
+interface:
+  display_name: "pyRevit Script Assistant"
+  short_description: "pyRevit 7 scripts, buttons and verified BIM edits"
+  default_prompt: "Use $pyrevit-script-assistant to build or fix a runnable pyRevit tool for the actual engine and verify its result."
+policy:
+  allow_implicit_invocation: true

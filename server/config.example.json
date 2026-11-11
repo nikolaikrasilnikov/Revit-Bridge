@@ -1,0 +1,9 @@
+{
+  "workspaceRoot": "./models",
+  "stateRoot": "./state",
+  "autodeskRoot": "C:/Program Files/Autodesk",
+  "supportedVersions": [
+    "2025",
+    "2026"
+  ]
+}

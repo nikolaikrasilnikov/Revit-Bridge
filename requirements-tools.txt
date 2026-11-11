@@ -1,0 +1,6 @@
+# Optional external helpers; not installed into Revit/pyRevit interpreters.
+pymupdf
+ezdxf
+shapely
+matplotlib
+numpy
