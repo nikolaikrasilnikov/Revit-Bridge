@@ -4,8 +4,8 @@ from html import escape
 
 OUT = Path(__file__).resolve().parents[1] / 'docs' / 'architecture'
 TEXT = {
-    'en': dict(title='Architecture', client='AI client', server='Local MCP server', agent='AI agent', js='JavaScript orchestration', operations='28 Revit operations', handlers='Validation · jobs · transactions', skills='Agent instructions', bridge='Revit Bridge', model='Model', optional='optional', solid='Core connection', dashed='Optional component', desc='The agent uses skills and Code Mode inside the local MCP server to orchestrate validated operations; the native bridge executes Revit API work, while optional pyRevit buttons also work with the model.'),
-    'ru': dict(title='Архитектура', client='AI-клиент', server='Локальный MCP-сервер', agent='AI-агент', js='Управление через JavaScript', operations='28 операций Revit', handlers='Проверки · задания · транзакции', skills='Инструкции агенту', bridge='Мост Revit', model='Модель', optional='необязательно', solid='Основной путь', dashed='Необязательный компонент', desc='Агент использует навыки и Code Mode внутри локального MCP-сервера для вызова проверяемых операций; нативный мост выполняет Revit API, а необязательные кнопки pyRevit также работают с моделью.')
+    'en': dict(title='Architecture', client='AI client', server='Local MCP server', agent='AI agent', js='JavaScript orchestration', operations='Tools', handlers='Validation · jobs · transactions', skills='Agent instructions', bridge='Revit Bridge', model='Model', optional='optional', solid='Core connection', dashed='Optional component', desc='The agent uses skills and Code Mode inside the local MCP server to orchestrate validated operations; the native bridge executes Revit API work, while optional pyRevit buttons also work with the model.'),
+    'ru': dict(title='Архитектура', client='AI-клиент', server='Локальный MCP-сервер', agent='AI-агент', js='Управление через JavaScript', operations='Инструменты', handlers='Проверки · задания · транзакции', skills='Инструкции агенту', bridge='Мост Revit', model='Модель', optional='необязательно', solid='Основной путь', dashed='Необязательный компонент', desc='Агент использует навыки и Code Mode внутри локального MCP-сервера для вызова проверяемых операций; нативный мост выполняет Revit API, а необязательные кнопки pyRevit также работают с моделью.')
 }
 
 def text(x, y, value, size=16, anchor='middle', fill='#171717', weight=600):
@@ -22,7 +22,7 @@ def node(x, y, w, h, name, sub, focal=False, optional=False):
         # Physical dash segments remain portable to static SVG renderers.
         d = ' '.join([dash(x,y,x+w,y),dash(x+w,y,x+w,y+h),dash(x+w,y+h,x,y+h),dash(x,y+h,x,y)])
         box += f'<path d="{d}" fill="none" stroke="#737373" stroke-width="1"/>'
-    return f'<g data-node="{escape(name)}">{box}{text(x+w/2,y+h/2-3,name,18 if focal else 16)}{text(x+w/2,y+h/2+19,sub,11,fill="#5b616a",weight=400)}</g>'
+    return f'<g data-node="{escape(name)}">{box}{text(x+w/2,y+h/2-3 if sub else y+h/2+6,name,18 if focal else 16)}{text(x+w/2,y+h/2+19,sub,11,fill="#5b616a",weight=400) if sub else ''}</g>'
 
 def build():
     OUT.mkdir(parents=True, exist_ok=True)
@@ -41,7 +41,7 @@ def build():
         ]
         for d,arrow in edges:
             svg += [f'<path d="{d}" fill="none" stroke="#737373" stroke-width="1.4"/>',f'<polygon points="{arrow}" fill="#737373"/>']
-        svg += [node(56,240,176,80,t['agent'],'ChatGPT · Codex'), node(312,240,304,80,'Code Mode',t['js'],True), node(312,388,304,80,t['operations'],t['handlers']), node(696,240,208,80,t['bridge'],'C# · Revit API'), node(696,388,208,80,t['model'],'RVT'), node(56,388,176,80,'Skills','Revit · pyRevit Assistant'),node(696,520,208,64,'pyRevit',t['optional'],optional=True), '<line x1="32" y1="636" x2="928" y2="636" stroke="#e5e7eb"/>','<path d="M 32,660 H 64" stroke="#737373" stroke-width="1.4"/>',text(76,664,t['solid'],11,'start','#5b616a',400),f'<path d="{dash(312,660,344,660)}" fill="none" stroke="#737373" stroke-width="1.4"/>',text(356,664,t['dashed'],11,'start','#5b616a',400),'</svg>']
+        svg += [node(56,240,176,80,t['agent'],''), node(312,240,304,80,'Code Mode',t['js'],True), node(312,388,304,80,t['operations'],t['handlers']), node(696,240,208,80,t['bridge'],'C# · Revit API'), node(696,388,208,80,t['model'],'RVT'), node(56,388,176,80,'Skills','Revit · pyRevit Assistant'),node(696,520,208,64,'pyRevit',t['optional'],optional=True), '<line x1="32" y1="636" x2="928" y2="636" stroke="#e5e7eb"/>','<path d="M 32,660 H 64" stroke="#737373" stroke-width="1.4"/>',text(76,664,t['solid'],11,'start','#5b616a',400),f'<path d="{dash(312,660,344,660)}" fill="none" stroke="#737373" stroke-width="1.4"/>',text(356,664,t['dashed'],11,'start','#5b616a',400),'</svg>']
         image = '\n'.join(svg)
         html = f'<!DOCTYPE html>\n<html lang="{lang}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Revit Bridge — {t["title"]}</title><style>html,body {{ margin:0; background:#ffffff; }} .diagram-container {{ width:100%; overflow-x:auto; }} svg {{ display:block; width:100%; min-width:960px; }} @media print {{ .diagram-container {{ overflow-x:visible; }} svg {{ min-width:0; }} }}</style></head><body><main class="diagram-container">\n{image}\n</main></body></html>\n'
         (OUT/(slug+'.html')).write_text(html,encoding='utf-8')
